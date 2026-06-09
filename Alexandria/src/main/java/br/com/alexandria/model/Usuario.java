@@ -7,13 +7,15 @@ public abstract class Usuario {
     private String cpf;
     private String email;
     private String senha;
+    private String tipo;
 
-    public Usuario(int id, String nome, String cpf, String email, String senha) {
+    public Usuario(int id, String nome, String cpf, String email, String senha, String tipo) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.senha = senha;
+        this.tipo = tipo;
     }
 
     public abstract int getDiasPrazoEmprestimo();
@@ -39,6 +41,9 @@ public abstract class Usuario {
     }
 
     public void setCpf(String cpf) {
+        if (cpf == null || cpf.length() != 11) {
+            throw new IllegalArgumentException("CPF inválido: deve conter exatamente 11 dígitos.");
+        }
         this.cpf = cpf;
     }
 
@@ -56,5 +61,13 @@ public abstract class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

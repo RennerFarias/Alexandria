@@ -5,7 +5,7 @@ public class Funcionario extends Usuario {
     private String cargo;
 
     public Funcionario(int id, String nome, String cpf, String email, String senha, String cargo) {
-        super(id, nome, cpf, email, senha);
+        super(id, nome, cpf, email, senha, cargo);
         this.cargo = cargo;
     }
 
