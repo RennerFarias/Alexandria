@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.math.BigDecimal;
 
 public class MenuFuncionario {
-    static void main() {
+    public void exibirMenu() {
         String[] opcoes = {
                 "Cadastrar Livro (Aquisição)",
                 "Realizar Empréstimo",
@@ -19,7 +19,9 @@ public class MenuFuncionario {
         boolean controleDeLoopPrincipal = true;
         boolean controleOpcao = true;
         do {
-                int opcaoEscolhida = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Titulo", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+                int opcaoEscolhida = JOptionPane.showOptionDialog(null,
+                        "Selecione a opção desejada", "Titulo", JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
                 controleOpcao = true;
 
                 if (opcaoEscolhida == 0) {
@@ -120,7 +122,8 @@ public class MenuFuncionario {
                             controleOpcao = false;
 
                         } else if (inputIdLivro.trim().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "O ID não pode ficar em branco!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "O ID não pode ficar em branco!",
+                                    "Aviso", JOptionPane.WARNING_MESSAGE);
                             controleOpcao = false;
                         } else {
 
@@ -129,12 +132,16 @@ public class MenuFuncionario {
                                 try {
                                     // Logica do Banco de dados
                                 } catch (Exception e) {
-                                    JOptionPane.showMessageDialog(null, "ERRO: Acesso Negado! Seu perfil de usuário não tem permissão para excluir registros do sistema.", "Erro de Permisão", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "ERRO: Acesso Negado! " +
+                                            "Seu perfil de usuário não tem permissão para excluir registros do sistema."
+                                            , "Erro de Permisão", JOptionPane.ERROR_MESSAGE);
                                 }
 
 
                             } catch (NumberFormatException e) {
-                                JOptionPane.showMessageDialog(null, "Erro: Digite apenas números inteiros para o ID.", "Erro de Digitação", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "" +
+                                        "Erro: Digite apenas números inteiros para o ID.", "Erro de Digitação",
+                                        JOptionPane.ERROR_MESSAGE);
 
                             }
 

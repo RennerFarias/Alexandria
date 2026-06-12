@@ -3,12 +3,14 @@ package br.com.alexandria.principal;
 import javax.swing.*;
 
 public class MenuAluno {
-    static void main() {
+    public void exibirMenu() {
         String[] opcoes = {"Consultar Acervo Disponível", "Meus Empréstimos", "Sair"};
         boolean controleDoLoop = true;
 
         do {
-            int opcaoEscolhida = JOptionPane.showOptionDialog(null, "O que deseja fazer?", "Titulo a ser pensado", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null );
+            int opcaoEscolhida = JOptionPane.showOptionDialog(null, "O que deseja fazer?",
+                    "Titulo a ser pensado", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, opcoes, null );
 
             if (opcaoEscolhida == 0) {
                 // Executar SELECT * FROM vw_acervo_publico
@@ -18,10 +20,12 @@ public class MenuAluno {
 
 
             } else {
-                JOptionPane.showMessageDialog(null, "Saindo...");
+
                 controleDoLoop = false;
             }
 
         } while (controleDoLoop);
+        JOptionPane.showMessageDialog(null, "Saindo...");
+
     }
 }
