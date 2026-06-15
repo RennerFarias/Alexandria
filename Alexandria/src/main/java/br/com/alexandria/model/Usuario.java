@@ -9,6 +9,12 @@ public abstract class Usuario {
     private String senha;
     private String tipo;
 
+    public Usuario(String nome, String senha) {
+        this.nome = nome;
+        this.senha = senha;
+
+    }
+
     public Usuario(int id, String nome, String cpf, String email, String senha, String tipo) {
         this.id = id;
         this.nome = nome;
@@ -17,6 +23,7 @@ public abstract class Usuario {
         this.senha = senha;
         this.tipo = tipo;
     }
+
 
     public abstract int getDiasPrazoEmprestimo();
 
