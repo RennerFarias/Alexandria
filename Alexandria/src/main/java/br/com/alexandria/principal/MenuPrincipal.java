@@ -1,6 +1,7 @@
 package br.com.alexandria.principal;
 
 import javax.swing.*;
+import java.util.concurrent.ExecutionException;
 
 public class MenuPrincipal {
     public void exibirMenu() {
@@ -33,12 +34,36 @@ public class MenuPrincipal {
                         usuario = campoUsuario.getText();
                         senha = new String(campoSenha.getPassword());
 
-                        // Bloco para passar as informacoes para a classe conexao
-                        // JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!", "Erro de Acesso",
-                        // JOptionPane.ERROR_MESSAGE);
+                        if (usuario.trim().isEmpty() || senha.trim().isEmpty()) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Atenção: Os campos de usuário e senha não podem ficar vazios!",
+                                    "Aviso",
+                                    JOptionPane.WARNING_MESSAGE);
+                            continue;
+                        }
 
-                        MenuFuncionario menuFuncionario = new MenuFuncionario();
-                        menuFuncionario.exibirMenu();
+                        try {
+                            connection.DataBaseConnection.getInstance(usuario, senha);
+
+                            MenuFuncionario menuFuncionario = new MenuFuncionario();
+                            menuFuncionario.exibirMenu();
+
+                            campoUsuario.setText("");
+                            campoSenha.setText("");
+
+                        }
+                        catch (java.sql.SQLException e) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Acesso negado! Verifique seu usuário e senha.\nErro: " + e.getMessage(),
+                                    "Erro de Acesso",
+                                    JOptionPane.ERROR_MESSAGE);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Acesso negado! Verifique seu usuário e senha.",
+                                    "Erro de Acesso",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+
 
                     }  else {
                         JOptionPane.showMessageDialog(null, "Login cancelado pelo usuario");
@@ -57,12 +82,36 @@ public class MenuPrincipal {
                         usuario = campoUsuario.getText();
                         senha = new String(campoSenha.getPassword());
 
-                        // Bloco para passar as informacoes para a classe conexao
-                        // JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!", "Erro de Acesso",
-                        // JOptionPane.ERROR_MESSAGE);
+                        if (usuario.trim().isEmpty() || senha.trim().isEmpty()) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Atenção: Os campos de usuário e senha não podem ficar vazios!",
+                                    "Aviso",
+                                    JOptionPane.WARNING_MESSAGE);
+                            continue;
+                        }
 
-                        MenuAluno menuAluno = new MenuAluno();
-                        menuAluno.exibirMenu();
+                        try {
+                            connection.DataBaseConnection.getInstance(usuario, senha);
+
+                            MenuAluno menuAluno = new MenuAluno();
+                            menuAluno.exibirMenu();
+
+                            campoUsuario.setText("");
+                            campoSenha.setText("");
+
+
+                        } catch (java.sql.SQLException e) {
+
+                            JOptionPane.showMessageDialog(null,
+                                    "Acesso negado! Verifique seu usuário e senha.\nErro: " + e.getMessage(),
+                                    "Erro de Acesso",
+                                    JOptionPane.ERROR_MESSAGE);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Acesso negado! Verifique seu usuário e senha.",
+                                    "Erro de Acesso",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
 
                     }  else {
                         JOptionPane.showMessageDialog(null, "Login cancelado pelo usuario");
