@@ -31,8 +31,6 @@ public class UsuarioDAO {
 
             pstm.execute();
 
-            System.out.println("Usuario cadastrado com sucesso!");
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
