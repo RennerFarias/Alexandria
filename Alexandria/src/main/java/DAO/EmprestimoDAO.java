@@ -45,7 +45,54 @@ public class EmprestimoDAO {
             cstm.setInt(1, idEmprestimo);
 
             cstm.execute();
-            JOptionPane.showMessageDialog(null, "Devolução realizada com sucesso", "Devolução",  JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Devolução realizada com sucesso", "Devolução", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    public String historicoUsuario() throws SQLException {
+
+        int idAlunoLogado = -1;
+        String sqlBuscaId = "SELECT id FROM usuario WHERE login_banco = SUBSTRING_INDEX(USER(), '@', 1)";
+
+        try (java.sql.Statement st = connection.createStatement(); java.sql.ResultSet rs = st.executeQuery(sqlBuscaId)) {
+            if (rs.next()) {
+                idAlunoLogado = rs.getInt("id");
+
+            } else {
+                throw new SQLException("Usuário logado no banco não possui um ID vinculado no sistema.");
+            };
+
+        }
+
+
+        String sql = "{CALL sp_historico_usuario(?)}";
+        StringBuilder historico = new StringBuilder();
+
+
+        try (java.sql.CallableStatement cstm = connection.prepareCall(sql)) {
+
+            // Passa o ID do aluno logado como parâmetro para a procedure
+            cstm.setInt(1, idAlunoLogado);
+
+            try (java.sql.ResultSet rs = cstm.executeQuery()) {
+
+                java.sql.ResultSetMetaData metaData = rs.getMetaData();
+                int colunas = metaData.getColumnCount();
+
+                while (rs.next()) {
+                    for (int i = 1; i <= colunas; i++) {
+                        historico.append(metaData.getColumnName(i).toUpperCase()).append(": ")
+                                .append(rs.getString(i)).append("  |  ");
+                    }
+                    historico.append("\n\n"); // Pula linha
+                }
+            }
+        }
+        if (historico.length() == 0) {
+            return "Você não possui nenhum empréstimo registrado no seu histórico.";
+        }
+
+        return historico.toString();
+    }
+
 }

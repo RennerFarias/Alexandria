@@ -1,9 +1,14 @@
 package br.com.alexandria.principal;
 
+import DAO.EmprestimoDAO;
+import DAO.LivroDAO;
+import br.com.alexandria.model.Livro;
+
 import javax.swing.*;
+import java.sql.SQLException;
 
 public class MenuAluno {
-    public void exibirMenu() {
+    public void exibirMenu() throws SQLException {
         String[] opcoes = {"Consultar Acervo Disponível", "Meus Empréstimos", "Sair"};
         boolean controleDoLoop = true;
 
@@ -13,10 +18,45 @@ public class MenuAluno {
                     null, opcoes, null );
 
             if (opcaoEscolhida == 0) {
-                // Executar SELECT * FROM vw_acervo_publico
+                try {
+                    LivroDAO livroDAO = new LivroDAO();
+                    String listaDeLivros = livroDAO.listarLivros();
+
+                    JTextArea textArea = new JTextArea(listaDeLivros);
+                    textArea.setEditable(false);
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    scrollPane.setPreferredSize(new java.awt.Dimension(500, 300));
+
+                    JOptionPane.showMessageDialog(null, scrollPane,
+                            "Acervo da Biblioteca", JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (java.sql.SQLException e) {
+                    // Captura possíveis falhas de conexão ou falta de permissão na View
+                    JOptionPane.showMessageDialog(null,
+                            "Erro ao carregar o acervo.\nDetalhe: " + e.getMessage(),
+                            "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
+                }
 
             } else if (opcaoEscolhida == 1) {
-                // Executa a procedure sp_historico_usuario ou um SELECT filtrando pelo ID do aluno logado.
+                try {
+                    EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
+                    String resultadoHistorico = emprestimoDAO.historicoUsuario();
+
+                    JTextArea textArea = new JTextArea(resultadoHistorico);
+                    textArea.setEditable(false);
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    scrollPane.setPreferredSize(new java.awt.Dimension(500, 300));
+
+                    JOptionPane.showMessageDialog(null, scrollPane,
+                            "Historico do aluno", JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (java.sql.SQLException e) {
+                    // Captura possíveis falhas de conexão ou falta de permissão na View
+                    JOptionPane.showMessageDialog(null,
+                            "Erro ao carregar o historico.\nDetalhe: " + e.getMessage(),
+                            "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
+                }
+
 
 
             } else {
