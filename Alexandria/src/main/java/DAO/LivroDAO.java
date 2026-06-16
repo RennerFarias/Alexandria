@@ -50,4 +50,33 @@ public class LivroDAO {
             }
         }
     }
+
+    public String listarLivros() throws SQLException {
+        String sql = "SELECT * FROM vw_acervo_publico";
+        StringBuilder acervo = new StringBuilder();
+
+        try (java.sql.Statement st = connection.createStatement();
+        java.sql.ResultSet rs = st.executeQuery(sql)) {
+
+            java.sql.ResultSetMetaData metaData = rs.getMetaData();
+            int colunas = metaData.getColumnCount();
+
+            while (rs.next()) {
+                // Monta a linha do livro (Ex: Titulo: O Hobbit | Autor: Tolkien)
+                for (int i = 1; i <= colunas; i++) {
+                    acervo.append(metaData.getColumnName(i).toUpperCase()).append(": ")
+                            .append(rs.getString(i)).append("  |  ");
+                }
+                acervo.append("\n"); // Pula linha para o próximo livro
+            }
+
+            // Se o laço terminar e a string estiver vazia, o banco não tem livros
+            if (acervo.length() == 0) {
+                return "Nenhum livro cadastrado no acervo no momento.";
+            }
+
+            return acervo.toString();
+
+        }
+    }
 }
