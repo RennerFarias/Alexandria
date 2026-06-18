@@ -1,5 +1,6 @@
 package br.com.alexandria.principal;
 
+import DAO.LivroDAO;
 import br.com.alexandria.model.Livro;
 
 import javax.swing.*;
@@ -13,6 +14,8 @@ public class MenuFuncionario {
                 "Realizar Devolução",
                 "Excluir Livro",
                 "Gerar Relatórios / backup",
+                "Listar Livros",
+                "Listar emprestimos",
                 "Sair"};
 
         int botaoClicado;
@@ -297,6 +300,27 @@ public class MenuFuncionario {
 
                     } while (controleOpcao);
 
+
+                } else if (opcaoEscolhida == 6) {
+                    try {
+                        LivroDAO livroDAO = new LivroDAO();
+                        String listaDeLivros = livroDAO.listarLivrosFuncionario();
+
+                        JTextArea textArea = new JTextArea(listaDeLivros);
+                        textArea.setEditable(false);
+                        JScrollPane scrollPane = new JScrollPane(textArea);
+                        scrollPane.setPreferredSize(new java.awt.Dimension(500, 300));
+
+                        JOptionPane.showMessageDialog(null, scrollPane,
+                                "Acervo da Biblioteca", JOptionPane.INFORMATION_MESSAGE);
+
+                    } catch (java.sql.SQLException e) {
+                        // Captura possíveis falhas de conexão ou falta de permissão na View
+                        JOptionPane.showMessageDialog(null,
+                                "Erro ao carregar o acervo.\nDetalhe: " + e.getMessage(),
+                                "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else if (opcaoEscolhida == 7) {
 
                 }
                 else {

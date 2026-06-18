@@ -31,7 +31,7 @@ public class MenuPrincipal {
                             "Acesso ao sistema",  JOptionPane.OK_CANCEL_OPTION,  JOptionPane.QUESTION_MESSAGE);
 
                     if (opcaoClicada == JOptionPane.OK_OPTION) {
-                        usuario = campoUsuario.getText();
+                        usuario = campoUsuario.getText().trim();
                         senha = new String(campoSenha.getPassword());
 
                         if (usuario.trim().isEmpty() || senha.trim().isEmpty()) {
@@ -79,7 +79,7 @@ public class MenuPrincipal {
                             "Acesso ao sistema",  JOptionPane.OK_CANCEL_OPTION,  JOptionPane.QUESTION_MESSAGE);
 
                     if (opcaoClicada == JOptionPane.OK_OPTION) {
-                        usuario = campoUsuario.getText();
+                        usuario = campoUsuario.getText().trim();
                         senha = new String(campoSenha.getPassword());
 
                         if (usuario.trim().isEmpty() || senha.trim().isEmpty()) {

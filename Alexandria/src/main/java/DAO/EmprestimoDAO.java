@@ -40,7 +40,7 @@ public class EmprestimoDAO {
     }
 
     public void devolucaoEmprestimo(int idEmprestimo) throws SQLException {
-        String sql = "{CALL sp_transacao_devoluca(?)}";
+        String sql = "{CALL sp_transacao_devolucao(?)}";
         try (CallableStatement cstm = connection.prepareCall(sql)) {
             cstm.setInt(1, idEmprestimo);
 
@@ -52,7 +52,7 @@ public class EmprestimoDAO {
     public String historicoUsuario() throws SQLException {
 
         int idAlunoLogado = -1;
-        String sqlBuscaId = "SELECT id FROM usuario WHERE login_banco = SUBSTRING_INDEX(USER(), '@', 1)";
+        String sqlBuscaId = "SELECT id_usuario FROM usuario WHERE login_banco = SUBSTRING_INDEX(USER(), '@', 1)";
 
         try (java.sql.Statement st = connection.createStatement(); java.sql.ResultSet rs = st.executeQuery(sqlBuscaId)) {
             if (rs.next()) {
