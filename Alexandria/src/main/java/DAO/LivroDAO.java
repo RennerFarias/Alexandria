@@ -71,7 +71,7 @@ public class LivroDAO {
             }
 
             // Se o laço terminar e a string estiver vazia, o banco não tem livros
-            if (acervo.length() == 0) {
+            if (acervo.isEmpty()) {
                 return "Nenhum livro cadastrado no acervo no momento.";
             }
 
@@ -80,7 +80,7 @@ public class LivroDAO {
         }
     }
 
-        public String listarLivros() throws SQLException {
+    public String listarLivros() throws SQLException {
             String sql = "SELECT * FROM vw_acervo_publico";
             StringBuilder acervo = new StringBuilder();
 
