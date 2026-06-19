@@ -88,7 +88,7 @@ public class EmprestimoDAO {
                 }
             }
         }
-        if (historico.length() == 0) {
+        if (historico.isEmpty()) {
             return "Você não possui nenhum empréstimo registrado no seu histórico.";
         }
 
@@ -97,7 +97,7 @@ public class EmprestimoDAO {
 
     public String ListarEmprestimos() throws SQLException {
 
-        String sql = "SELECT * FROM emprestimo";
+        String sql = "SELECT * FROM emprestimos";
         StringBuilder listagem = new StringBuilder();
 
 

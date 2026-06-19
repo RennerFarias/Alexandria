@@ -1,7 +1,6 @@
-package br.com.alexandria.principal;
+package br.com.alexandria.Menus;
 
 import javax.swing.*;
-import java.util.concurrent.ExecutionException;
 
 public class MenuPrincipal {
     public void exibirMenu() {
@@ -66,7 +65,6 @@ public class MenuPrincipal {
 
 
                     }  else {
-                        JOptionPane.showMessageDialog(null, "Login cancelado pelo usuario");
                         continuarOpcao = false;
                     }
                 } while (continuarOpcao);
@@ -114,7 +112,6 @@ public class MenuPrincipal {
                         }
 
                     }  else {
-                        JOptionPane.showMessageDialog(null, "Login cancelado pelo usuario");
                         continuarOpcao = false;
                     }
                 } while (continuarOpcao);
@@ -125,7 +122,6 @@ public class MenuPrincipal {
                 continuar = false;
             }
         } while (continuar);
-        JOptionPane.showMessageDialog(null, "Saindo...");
 
 
 
