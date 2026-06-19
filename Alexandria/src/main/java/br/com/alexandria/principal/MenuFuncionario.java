@@ -1,5 +1,6 @@
 package br.com.alexandria.principal;
 
+import DAO.EmprestimoDAO;
 import DAO.LivroDAO;
 import br.com.alexandria.model.Livro;
 
@@ -36,7 +37,8 @@ public class MenuFuncionario {
                         JTextField campoIsbn = new JTextField();
                         JTextField campoPrecoCusto = new JTextField();
                         JTextField campoQuantidadeDeEstoque = new JTextField();
-                        JTextField campoStatus = new JTextField();
+                        String[] opcaoStatus = {"Disponível", "Indisponível"};
+                        JComboBox<String> campoStatus = new JComboBox<>(opcaoStatus);
                         JTextField campoNotaFiscal = new JTextField();
 
                         Object[] formularioLivro = {
@@ -54,7 +56,7 @@ public class MenuFuncionario {
                                 String titulo = campoTituloLivro.getText();
                                 String autor = campoAutor.getText();
                                 String isbn = campoIsbn.getText();
-                                String status = campoStatus.getText();
+                                String status = campoStatus.getSelectedItem().toString();
                                 String notaFiscal = campoNotaFiscal.getText();
 
                                 java.math.BigDecimal precoCusto = new java.math.BigDecimal(campoPrecoCusto.getText());
@@ -321,9 +323,22 @@ public class MenuFuncionario {
                                 "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
                     }
                 } else if (opcaoEscolhida == 7) {
+                    try {
+                        EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
+                        String listaDeEmprestimos = emprestimoDAO.ListarEmprestimos();
 
+                        JTextArea textArea = new JTextArea(listaDeEmprestimos);
+                        textArea.setEditable(false);
+                        JScrollPane scrollPane = new JScrollPane(textArea);
+                        scrollPane.setPreferredSize(new java.awt.Dimension(500, 300));
+
+                    }  catch (java.sql.SQLException e) {
+                        // Captura possíveis falhas de conexão ou falta de permissão na View
+                        JOptionPane.showMessageDialog(null,
+                                "Erro ao carregar o acervo.\nDetalhe: " + e.getMessage(),
+                                "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
                 }
-                else {
+                } else {
                     controleDeLoopPrincipal = false;
                 };
 
