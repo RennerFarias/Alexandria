@@ -95,4 +95,32 @@ public class EmprestimoDAO {
         return historico.toString();
     }
 
+    public String ListarEmprestimos() throws SQLException {
+
+        String sql = "SELECT * FROM emprestimo";
+        StringBuilder listagem = new StringBuilder();
+
+
+            try (java.sql.Statement st = connection.createStatement();
+             java.sql.ResultSet rs = st.executeQuery(sql)) {
+
+                java.sql.ResultSetMetaData metaData = rs.getMetaData();
+                int colunas = metaData.getColumnCount();
+
+                while (rs.next()) {
+                    for (int i = 1; i <= colunas; i++) {
+                        listagem.append(metaData.getColumnName(i).toUpperCase()).append(": ")
+                                .append(rs.getString(i)).append("  |  ");
+                    }
+                    listagem.append("\n\n"); // Pula linha
+                }
+            }
+        if (listagem.isEmpty()) {
+            return "Não há emprestimos registrados.";
+        }
+
+        return listagem.toString();
+    }
+
+
 }
