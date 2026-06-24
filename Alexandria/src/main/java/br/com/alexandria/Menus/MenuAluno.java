@@ -40,19 +40,37 @@ public class MenuAluno {
 
                 case 1: // Meus Empréstimos
                     try {
-                        EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
-                        String resultadoHistorico = emprestimoDAO.historicoUsuario();
+                        String inputId = JOptionPane.showInputDialog(null,
+                                "Por favor, digite o seu ID de Aluno:",
+                                "Identificação", JOptionPane.QUESTION_MESSAGE);
 
-                        JTextArea textArea = new JTextArea(resultadoHistorico);
-                        textArea.setEditable(false);
-                        JScrollPane scrollPane = new JScrollPane(textArea);
-                        scrollPane.setPreferredSize(new java.awt.Dimension(500, 300));
+                        if (inputId != null && !inputId.trim().isEmpty()) {
 
-                        JOptionPane.showMessageDialog(null, scrollPane,
-                                "Histórico do aluno", JOptionPane.INFORMATION_MESSAGE);
+
+                            int idAlunoLogado = Integer.parseInt(inputId.trim());
+
+
+                            EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
+                            String resultadoHistorico = emprestimoDAO.historicoUsuario(idAlunoLogado);
+
+                            // 3. Monta a tela de exibição
+                            JTextArea textArea = new JTextArea(resultadoHistorico);
+                            textArea.setEditable(false);
+                            JScrollPane scrollPane = new JScrollPane(textArea);
+                            scrollPane.setPreferredSize(new java.awt.Dimension(500, 300));
+
+                            JOptionPane.showMessageDialog(null, scrollPane,
+                                    "Histórico de Empréstimos", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                    } catch (NumberFormatException e) {
+                        // Captura o erro caso o aluno digite letras ao invés de números
+                        JOptionPane.showMessageDialog(null,
+                                "Erro: O ID deve conter apenas números.",
+                                "Erro de Digitação", JOptionPane.ERROR_MESSAGE);
 
                     } catch (java.sql.SQLException e) {
-                        // Captura possíveis falhas de conexão ou falta de permissão na View
+                        // Captura possíveis falhas de conexão ou problemas no banco
                         JOptionPane.showMessageDialog(null,
                                 "Erro ao carregar o histórico.\nDetalhe: " + e.getMessage(),
                                 "Erro de Acesso", JOptionPane.ERROR_MESSAGE);

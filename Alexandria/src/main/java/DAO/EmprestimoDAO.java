@@ -49,47 +49,43 @@ public class EmprestimoDAO {
         }
     }
 
-    public String historicoUsuario() throws SQLException {
+    // Note que agora a função recebe o 'idAlunoLogado' diretamente!
+    public String historicoUsuario(int idAlunoLogado) throws SQLException {
 
-        int idAlunoLogado = -1;
-        String sqlBuscaId = "SELECT id_usuario FROM usuario WHERE login_banco = SUBSTRING_INDEX(USER(), '@', 1)";
+        // Executa o SELECT filtrando pelo ID do aluno logado
+        String sqlHistorico = "SELECT l.titulo AS 'Livro', e.data_saida AS 'Data de Saída', " +
+                "e.data_prevista AS 'Devolução Prevista', e.data_devolucao AS 'Devolvido em' " +
+                "FROM emprestimos e " +
+                "JOIN livros l ON e.id_livro_fk = l.id_livro " +
+                "WHERE e.id_usuario_fk = ? " +
+                "ORDER BY e.data_saida DESC";
 
-        try (java.sql.Statement st = connection.createStatement(); java.sql.ResultSet rs = st.executeQuery(sqlBuscaId)) {
-            if (rs.next()) {
-                idAlunoLogado = rs.getInt("id");
-
-            } else {
-                throw new SQLException("Usuário logado no banco não possui um ID vinculado no sistema.");
-            };
-
-        }
-
-
-        String sql = "{CALL sp_historico_usuario(?)}";
         StringBuilder historico = new StringBuilder();
 
+        try (java.sql.PreparedStatement pstm = connection.prepareStatement(sqlHistorico)) {
 
-        try (java.sql.CallableStatement cstm = connection.prepareCall(sql)) {
+            // Passa o ID recebido por parâmetro para o WHERE
+            pstm.setInt(1, idAlunoLogado);
 
-            // Passa o ID do aluno logado como parâmetro para a procedure
-            cstm.setInt(1, idAlunoLogado);
-
-            try (java.sql.ResultSet rs = cstm.executeQuery()) {
+            try (java.sql.ResultSet rs = pstm.executeQuery()) {
 
                 java.sql.ResultSetMetaData metaData = rs.getMetaData();
                 int colunas = metaData.getColumnCount();
 
                 while (rs.next()) {
                     for (int i = 1; i <= colunas; i++) {
-                        historico.append(metaData.getColumnName(i).toUpperCase()).append(": ")
-                                .append(rs.getString(i)).append("  |  ");
+                        String nomeColuna = metaData.getColumnLabel(i);
+                        String valorColuna = rs.getString(i) != null ? rs.getString(i) : "Pendente";
+
+                        historico.append(nomeColuna).append(": ").append(valorColuna).append("  |  ");
                     }
-                    historico.append("\n\n"); // Pula linha
+                    historico.append("\n\n");
                 }
             }
         }
-        if (historico.isEmpty()) {
-            return "Você não possui nenhum empréstimo registrado no seu histórico.";
+
+        if (historico.length() == 0) {
+            return "Nenhum empréstimo encontrado no seu histórico.";
         }
 
         return historico.toString();
