@@ -16,7 +16,7 @@ public class RelatorioDAO {
     }
 
     public String buscarRelatorioFinanceiro() throws SQLException {
-        String sql = "SELECT * FROM vw_relatorio_financeiro";
+        String sql = "SELECT * FROM vw_dashboard_financeiro";
         StringBuilder relatorio = new StringBuilder();
 
         try (Statement st = connection.createStatement();

@@ -52,7 +52,7 @@ public class LivroDAO {
     }
 
     public String listarLivrosFuncionario() throws SQLException {
-        String sql = "SELECT * FROM vw_acervo_publico";
+        String sql = "SELECT * FROM vw_livros_detalhados";
         StringBuilder acervo = new StringBuilder();
 
         try (java.sql.Statement st = connection.createStatement();
@@ -81,7 +81,7 @@ public class LivroDAO {
     }
 
     public String listarLivros() throws SQLException {
-            String sql = "SELECT * FROM vw_acervo_publico";
+            String sql = "SELECT * FROM vw_livros_detalhados";
             StringBuilder acervo = new StringBuilder();
 
             try (java.sql.Statement st = connection.createStatement();
