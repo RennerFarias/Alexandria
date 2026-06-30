@@ -2,6 +2,7 @@ package br.com.alexandria.Menus;
 
 import DAO.EmprestimoDAO;
 import DAO.LivroDAO;
+import br.com.alexandria.util.TratamentoDeErros;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -32,9 +33,13 @@ public class MenuAluno {
                                 "Acervo da Biblioteca", JOptionPane.INFORMATION_MESSAGE);
 
                     } catch (java.sql.SQLException e) {
+
+                        String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                         JOptionPane.showMessageDialog(null,
-                                "Erro ao carregar o acervo.\nDetalhe: " + e.getMessage(),
-                                "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
+                                mensagemAmigavel,
+                                "Aviso do Sistema",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                     break; // Fim do Case 0
 
@@ -70,10 +75,13 @@ public class MenuAluno {
                                 "Erro de Digitação", JOptionPane.ERROR_MESSAGE);
 
                     } catch (java.sql.SQLException e) {
-                        // Captura possíveis falhas de conexão ou problemas no banco
+
+                        String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                         JOptionPane.showMessageDialog(null,
-                                "Erro ao carregar o histórico.\nDetalhe: " + e.getMessage(),
-                                "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
+                                mensagemAmigavel,
+                                "Aviso do Sistema",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                     break;
 

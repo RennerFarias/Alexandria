@@ -1,5 +1,7 @@
 package br.com.alexandria.Menus;
 
+import br.com.alexandria.util.TratamentoDeErros;
+
 import javax.swing.*;
 
 public class MenuPrincipal {
@@ -50,12 +52,14 @@ public class MenuPrincipal {
                             campoUsuario.setText("");
                             campoSenha.setText("");
 
-                        }
-                        catch (java.sql.SQLException e) {
+                        } catch (java.sql.SQLException e) {
+
+                            String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                             JOptionPane.showMessageDialog(null,
-                                    "Acesso negado! Verifique seu usuário e senha.\nErro: " + e.getMessage(),
-                                    "Erro de Acesso",
-                                    JOptionPane.ERROR_MESSAGE);
+                                    mensagemAmigavel,
+                                    "Aviso do Sistema",
+                                    JOptionPane.WARNING_MESSAGE);
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null,
                                     "Acesso negado! Verifique seu usuário e senha.",
@@ -100,10 +104,12 @@ public class MenuPrincipal {
 
                         } catch (java.sql.SQLException e) {
 
+                            String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                             JOptionPane.showMessageDialog(null,
-                                    "Acesso negado! Verifique seu usuário e senha.\nErro: " + e.getMessage(),
-                                    "Erro de Acesso",
-                                    JOptionPane.ERROR_MESSAGE);
+                                    mensagemAmigavel,
+                                    "Aviso do Sistema",
+                                    JOptionPane.WARNING_MESSAGE);
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null,
                                     "Acesso negado! Verifique seu usuário e senha.",

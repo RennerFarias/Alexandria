@@ -3,6 +3,7 @@ package br.com.alexandria.Menus;
 import DAO.EmprestimoDAO;
 import DAO.LivroDAO;
 import br.com.alexandria.model.Livro;
+import br.com.alexandria.util.TratamentoDeErros;
 
 import javax.swing.*;
 
@@ -102,11 +103,14 @@ public class MenuFuncionario {
                                         "Regra de Negócio",
                                         JOptionPane.WARNING_MESSAGE);
 
-                            } catch (java.sql.SQLException ex) {
+                            } catch (java.sql.SQLException e) {
+                                // Agora o Java já sabe quem é TratamentoDeErros por causa do import lá em cima!
+                                String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                                 JOptionPane.showMessageDialog(null,
-                                        "Falha ao salvar no banco de dados.\nDetalhe: " + ex.getMessage(),
-                                        "Erro de Permissão / Banco",
-                                        JOptionPane.ERROR_MESSAGE);
+                                        mensagemAmigavel,
+                                        "Aviso do Sistema",
+                                        JOptionPane.WARNING_MESSAGE);
                             }
                         } else {
                             controleOpcao = false;
@@ -148,10 +152,13 @@ public class MenuFuncionario {
                                         JOptionPane.ERROR_MESSAGE);
 
                             } catch (java.sql.SQLException e) {
+
+                                String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                                 JOptionPane.showMessageDialog(null,
-                                        "A transação foi recusada pelo banco de dados.\nMotivo: " + e.getMessage(),
-                                        "Erro no Empréstimo",
-                                        JOptionPane.ERROR_MESSAGE);
+                                        mensagemAmigavel,
+                                        "Aviso do Sistema",
+                                        JOptionPane.WARNING_MESSAGE);
                             }
                         } else {
                             controleOpcao = false;
@@ -189,9 +196,13 @@ public class MenuFuncionario {
                                         "Erro de Digitação", JOptionPane.ERROR_MESSAGE);
 
                             } catch (java.sql.SQLException e) {
+
+                                String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                                 JOptionPane.showMessageDialog(null,
-                                        "A renovação foi recusada.\nMotivo: " + e.getMessage(),
-                                        "Erro na Renovação", JOptionPane.ERROR_MESSAGE);
+                                        mensagemAmigavel,
+                                        "Aviso do Sistema",
+                                        JOptionPane.WARNING_MESSAGE);
                             }
                         }
                     } while (controleOpcao);
@@ -227,9 +238,13 @@ public class MenuFuncionario {
                                         "Erro de Digitação", JOptionPane.ERROR_MESSAGE);
 
                             } catch (java.sql.SQLException e) {
+
+                                String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                                 JOptionPane.showMessageDialog(null,
-                                        "A Devolução foi recusada.\nMotivo: " + e.getMessage(),
-                                        "Erro na Devolução", JOptionPane.ERROR_MESSAGE);
+                                        mensagemAmigavel,
+                                        "Aviso do Sistema",
+                                        JOptionPane.WARNING_MESSAGE);
                             }
                         }
                     } while (controleOpcao);
@@ -265,9 +280,13 @@ public class MenuFuncionario {
                                         "Erro de Digitação", JOptionPane.ERROR_MESSAGE);
 
                             } catch (java.sql.SQLException e) {
+
+                                String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                                 JOptionPane.showMessageDialog(null,
-                                        "A exclusão foi recusada.\nMotivo: " + e.getMessage(),
-                                        "Erro na exclusão", JOptionPane.ERROR_MESSAGE);
+                                        mensagemAmigavel,
+                                        "Aviso do Sistema",
+                                        JOptionPane.WARNING_MESSAGE);
                             }
                         }
                     } while (controleOpcao);
@@ -295,9 +314,13 @@ public class MenuFuncionario {
                                 "Acervo da Biblioteca", JOptionPane.INFORMATION_MESSAGE);
 
                     } catch (java.sql.SQLException e) {
+
+                        String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                         JOptionPane.showMessageDialog(null,
-                                "Erro ao carregar o acervo.\nDetalhe: " + e.getMessage(),
-                                "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
+                                mensagemAmigavel,
+                                "Aviso do Sistema",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                     break;
 
@@ -314,10 +337,14 @@ public class MenuFuncionario {
                         JOptionPane.showMessageDialog(null, scrollPane,
                                 "Lista de Empréstimos", JOptionPane.INFORMATION_MESSAGE);
 
-                    }  catch (java.sql.SQLException e) {
+                    } catch (java.sql.SQLException e) {
+
+                        String mensagemAmigavel = TratamentoDeErros.obterMensagemAmigavel(e);
+
                         JOptionPane.showMessageDialog(null,
-                                "Erro ao carregar os empréstimos.\nDetalhe: " + e.getMessage(),
-                                "Erro de Acesso", JOptionPane.ERROR_MESSAGE);
+                                mensagemAmigavel,
+                                "Aviso do Sistema",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                     break;
 
