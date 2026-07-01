@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class LivroDAO {
 
     private final Connection connection;
@@ -30,24 +32,21 @@ public class LivroDAO {
             pstm.setString(6, livro.getStatus());
 
             pstm.execute();
-            System.out.println("Livro cadastrado com sucesso: " + livro.getTitulo());
+            JOptionPane.showMessageDialog(null,
+                    "Livro cadastrado com sucesso!: " + livro.getTitulo() ,
+                    "Cadastro de livro",
+                    JOptionPane.DEFAULT_OPTION);
         }
 
     }
 
-    public void excluirLivro(int id) throws SQLException {
+    public boolean excluirLivro(int id) throws SQLException {
         String sql = "DELETE FROM livros WHERE id_livro = ?";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setInt(1, id);
-
             int linhasAfetadas = pstm.executeUpdate();
-
-            if (linhasAfetadas > 0) {
-                System.out.println("Livro excluído com sucesso! ID: " + id);
-            } else {
-                System.out.println("Nenhum livro encontrado com o ID fornecido.");
-            }
+            return linhasAfetadas > 0;
         }
     }
 

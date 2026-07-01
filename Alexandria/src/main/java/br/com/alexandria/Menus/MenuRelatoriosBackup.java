@@ -1,5 +1,8 @@
 package br.com.alexandria.Menus;
 
+import br.com.alexandria.service.BackupService;
+import connection.DataBaseConnection;
+
 import javax.swing.*;
 
 public class MenuRelatoriosBackup {
@@ -41,38 +44,25 @@ public class MenuRelatoriosBackup {
                     }
                     break;
 
-                case 1: // Fazer Backup do Banco de dados
-                    try {
-                        // Define que o arquivo será salvo na pasta Documentos do Windows/Linux do usuário
-                        String homeDir = System.getProperty("user.home");
-                        String caminhoBackup = homeDir + "/Documents/backup_alexandria.sql";
+                case 1: { // Fazer Backup do Banco de dados
+                    DataBaseConnection conexaoAtual = DataBaseConnection.getInstance();
 
-                        // ATENÇÃO: Ajuste o '-u root -psenha' para as credenciais administrativas do seu MySQL local
-                        // Não deixe espaço entre o -p e a sua senha
-                        String comando = "mysqldump -u root -pSuaSenhaRoot alexandria -r \"" + caminhoBackup + "\"";
+                    BackupService.ResultadoBackup resultado = BackupService.realizarBackup(
+                            conexaoAtual.getUsuario(),
+                            conexaoAtual.getSenha()
+                    );
 
-                        // Executa o comando no sistema operacional
-                        Process processo = Runtime.getRuntime().exec(comando);
-
-                        // Pede para o Java esperar o backup terminar de salvar
-                        int terminou = processo.waitFor();
-
-                        if (terminou == 0) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Backup realizado com sucesso!\nSalvo em: " + caminhoBackup,
-                                    "Backup Concluído", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(null,
-                                    "O comando falhou. O mysqldump está configurado nas variáveis de ambiente?",
-                                    "Erro de Execução", JOptionPane.WARNING_MESSAGE);
-                        }
-
-                    } catch (Exception e) {
+                    if (resultado.sucesso) {
                         JOptionPane.showMessageDialog(null,
-                                "Erro interno ao tentar criar o backup: " + e.getMessage(),
-                                "Erro Grave", JOptionPane.ERROR_MESSAGE);
+                                resultado.mensagem + "\nSalvo em: " + resultado.caminhoArquivo,
+                                "Backup Concluído", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                resultado.mensagem,
+                                "Erro ao Realizar Backup", JOptionPane.ERROR_MESSAGE);
                     }
                     break;
+                }
 
                 case 2: // Voltar
                 default:
